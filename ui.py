@@ -5,7 +5,7 @@ THEME_COLOR = "#375362"
 FONT = ('Arial', 20, 'italic')
 
 class QuizInterface:
-    def __init__(self, quiz_brain: QuizBrain) -> None:
+    def __init__(self, quiz_brain: QuizBrain):
         self.quiz = quiz_brain
         
         self.window = Tk()
@@ -23,12 +23,12 @@ class QuizInterface:
 
         # Green button
         green_img = PhotoImage(file="./images/true.png")
-        self.green_btn = Button(image=green_img, highlightthickness=0)
+        self.green_btn = Button(image=green_img, highlightthickness=0, command=self.true)
         self.green_btn.grid(column=0, row=2)
 
         # Red button
         red_img = PhotoImage(file="./images/false.png")
-        self.red_btn = Button(image=red_img, highlightthickness=0)
+        self.red_btn = Button(image=red_img, highlightthickness=0, command=self.false)
         self.red_btn.grid(column=1, row=2)
 
         self.get_next_question()
@@ -38,3 +38,9 @@ class QuizInterface:
     def get_next_question(self):
         q_text = self.quiz.next_question()
         self.canvas.itemconfig(self.question_text, text=q_text)
+
+    def true(self):
+        self.quiz.check_answer('True')
+
+    def false(self):
+        self.quiz.check_answer('False')
