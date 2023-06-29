@@ -36,9 +36,16 @@ class QuizInterface:
         self.window.mainloop()
 
     def get_next_question(self):
-        q_text = self.quiz.next_question()
-        self.canvas.itemconfig(self.question_text, text=q_text)
-        self.canvas.configure(bg='white')
+        if self.quiz.still_has_questions():
+            q_text = self.quiz.next_question()
+            self.score_label.config(text=f"Score: {self.quiz.score}")
+            self.canvas.itemconfig(self.question_text, text=q_text)
+            self.canvas.configure(bg='white')
+        else:
+            self.canvas.itemconfig(self.question_text, text="You've reached the end of the quiz.")
+            self.canvas.config(bg='white')
+            self.green_btn.config(state='disabled')
+            self.red_btn.config(state='disabled')
 
     def true(self):
         is_right = self.quiz.check_answer('True')
